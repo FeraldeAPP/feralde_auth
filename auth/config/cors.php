@@ -1,0 +1,43 @@
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cross-Origin Resource Sharing (CORS) Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure your settings for cross-origin resource sharing
+    | or "CORS". This determines what cross-origin operations may execute
+    | in web browsers. You are free to adjust these settings as needed.
+    |
+    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+    |
+    */
+
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'csrf-cookie', 'auth/*', 'user'],
+
+    'allowed_methods' => ['*'],
+
+    // Configure allowed origins via the CORS_ALLOWED_ORIGINS env var
+    'allowed_origins' => array_filter(
+        array_map('trim', explode(',', env('CORS_ALLOWED_ORIGINS', '')))
+    ),
+
+    'allowed_origins_patterns' => [
+        // Allow both HTTP and HTTPS for rz-erp.chysev.cloud (frontend)
+        '/^https?:\/\/rz-erp\.chysev\.cloud$/',
+        // Allow rzerp-api.chysev.cloud (backend)
+        '/^https?:\/\/rzerp-api\.chysev\.cloud$/',
+    ],
+
+    'allowed_headers' => ['*'],
+
+    'exposed_headers' => ['X-CSRF-TOKEN'],
+
+    'max_age' => 0,
+
+    'supports_credentials' => true,
+
+];
+

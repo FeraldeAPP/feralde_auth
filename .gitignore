@@ -1,0 +1,35 @@
+# ── Dependencies ──────────────────────────────────────────────────────────────
+node_modules/
+vendor/
+
+# ── Laravel ───────────────────────────────────────────────────────────────────
+auth/.env
+auth/.env.backup
+auth/.env.production
+auth/storage/app/private/
+auth/storage/framework/cache/
+auth/storage/framework/sessions/
+auth/storage/framework/testing/
+auth/storage/framework/views/
+auth/storage/logs/
+auth/bootstrap/cache/
+auth/public/hot
+auth/public/storage
+
+# ── Vite / React build ────────────────────────────────────────────────────────
+test-ui/dist/
+test-ui/.env
+test-ui/.env.local
+test-ui/.env.*.local
+
+# ── OS & editor ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ── Misc ──────────────────────────────────────────────────────────────────────
+*.log
+*.cache
