@@ -13,8 +13,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('provider');                          // google, facebook
             $table->string('provider_id');                       // OAuth UID from the provider
-            $table->string('provider_token')->nullable();        // access token
-            $table->string('provider_refresh_token')->nullable();
+            $table->text('provider_token')->nullable();           // access token (can exceed 255 chars)
+            $table->text('provider_refresh_token')->nullable();
             $table->timestamps();
 
             $table->unique(['provider', 'provider_id']);
