@@ -1,35 +1,43 @@
-# ── Dependencies ──────────────────────────────────────────────────────────────
+# Dependencies
 node_modules/
 vendor/
 
-# ── Laravel ───────────────────────────────────────────────────────────────────
-auth/.env
-auth/.env.backup
-auth/.env.production
-auth/storage/app/private/
-auth/storage/framework/cache/
-auth/storage/framework/sessions/
-auth/storage/framework/testing/
-auth/storage/framework/views/
-auth/storage/logs/
-auth/bootstrap/cache/
-auth/public/hot
-auth/public/storage
+# Laravel
+.env
+.env.backup
+.env.production
+storage/app/private/
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/testing/
+storage/framework/views/
+storage/logs/
+storage/pail
+storage/*.key
+bootstrap/cache/
+public/hot
+public/storage
+public/build
+bootstrap/cache
+# PHP
+.phpactor.json
+.phpunit.result.cache
+/.phpunit.cache
+/auth.json
+Homestead.json
+Homestead.yaml
 
-# ── Vite / React build ────────────────────────────────────────────────────────
-test-ui/dist/
-test-ui/.env
-test-ui/.env.local
-test-ui/.env.*.local
-
-# ── OS & editor ───────────────────────────────────────────────────────────────
+# OS & editor
 .DS_Store
 Thumbs.db
-.idea/
-.vscode/
+/.idea
+/.fleet
+/.nova
+/.vscode
+/.zed
 *.swp
 *.swo
 
-# ── Misc ──────────────────────────────────────────────────────────────────────
+# Misc
 *.log
 *.cache
