@@ -159,6 +159,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@socia.com'],
             [
                 'name'              => 'Admin',
+                'account_type'      => 'employee',
                 'password'          => Hash::make('password'),
                 'email_verified_at' => now(),
             ]

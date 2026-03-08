@@ -36,6 +36,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'account_type',
         'password',
     ];
 
@@ -63,6 +64,7 @@ class User extends Authenticatable
             'failed_login_attempts' => 'integer',
             'locked_at' => 'datetime',
             'password' => 'hashed',
+            'account_type' => 'string',
         ];
     }
 
@@ -72,6 +74,16 @@ class User extends Authenticatable
     public function socialAccounts(): HasMany
     {
         return $this->hasMany(SocialAccount::class);
+    }
+
+    public function isEmployee(): bool
+    {
+        return $this->account_type === 'employee';
+    }
+
+    public function isCustomer(): bool
+    {
+        return $this->account_type === 'customer';
     }
 
     /**
@@ -496,6 +508,7 @@ class User extends Authenticatable
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'account_type' => $this->account_type,
             'email_verified_at' => $this->email_verified_at,
             'last_login_at' => $this->last_login_at,
             'is_active' => $this->is_active,
@@ -515,10 +528,14 @@ class User extends Authenticatable
      */
     public static function validateRegister(array $data): array
     {
+        // Self-registration always creates customer accounts
+        $data['account_type'] = 'customer';
+
         $validator = Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'account_type' => ['required', 'string', 'in:customer'],
         ]);
 
         if ($validator->fails()) {
@@ -547,6 +564,7 @@ class User extends Authenticatable
                 $user = self::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
+                    'account_type' => $data['account_type'] ?? 'customer',
                     'password' => Hash::make($data['password']),
                 ]);
 
@@ -614,6 +632,7 @@ class User extends Authenticatable
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
+            'account_type' => ['required', 'string', 'in:employee,customer'],
             'role_ids' => ['sometimes', 'array'],
             'role_ids.*' => ['exists:roles,id'],
         ]);
@@ -649,6 +668,7 @@ class User extends Authenticatable
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
+            'account_type' => ['sometimes', 'string', 'in:employee,customer'],
             'password' => ['sometimes', 'nullable', 'string', 'min:8'],
             'role_ids' => ['sometimes', 'array'],
             'role_ids.*' => ['exists:roles,id'],
@@ -1236,6 +1256,7 @@ class User extends Authenticatable
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'account_type' => $user->account_type,
                 'email_verified_at' => $user->email_verified_at,
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
@@ -1304,6 +1325,7 @@ class User extends Authenticatable
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'account_type' => $user->account_type,
                 'email_verified_at' => $user->email_verified_at,
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at,
@@ -1326,6 +1348,7 @@ class User extends Authenticatable
                 $user = self::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
+                    'account_type' => $data['account_type'] ?? 'employee',
                     'password' => Hash::make($data['password']),
                 ]);
 
@@ -1346,6 +1369,7 @@ class User extends Authenticatable
                         'id' => $user->id,
                         'name' => $user->name,
                         'email' => $user->email,
+                        'account_type' => $user->account_type,
                         'roles' => $user->roles->pluck('name')->toArray(),
                         'permissions' => $categoryPermissions,
                     ],
@@ -1385,6 +1409,10 @@ class User extends Authenticatable
                     'email' => $data['email'],
                 ];
 
+                if (isset($data['account_type'])) {
+                    $updateData['account_type'] = $data['account_type'];
+                }
+
                 if (isset($data['password']) && !empty($data['password'])) {
                     $updateData['password'] = Hash::make($data['password']);
                 }
@@ -1408,6 +1436,7 @@ class User extends Authenticatable
                         'id' => $user->id,
                         'name' => $user->name,
                         'email' => $user->email,
+                        'account_type' => $user->account_type,
                         'roles' => $user->roles->pluck('name')->toArray(),
                         'permissions' => $categoryPermissions,
                     ],
