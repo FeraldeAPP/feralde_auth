@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
     }
 
     /**
-     * Create permissions — user management only.
+     * Create permissions for all admin modules.
      */
     private function createPermissions(): void
     {
@@ -68,6 +68,115 @@ class DatabaseSeeder extends Seeder
                     'roles' => [
                         'roles.view',
                         'roles.manage',
+                    ],
+                ],
+            ],
+            [
+                'permission' => 'catalog_management',
+                'module' => [
+                    'products' => [
+                        'products.view',
+                        'products.create',
+                        'products.update',
+                        'products.delete',
+                    ],
+                    'categories' => [
+                        'categories.view',
+                        'categories.create',
+                        'categories.update',
+                        'categories.delete',
+                    ],
+                    'bundles' => [
+                        'bundles.view',
+                        'bundles.create',
+                        'bundles.update',
+                        'bundles.delete',
+                    ],
+                    'promo_codes' => [
+                        'promo_codes.view',
+                        'promo_codes.create',
+                        'promo_codes.update',
+                        'promo_codes.delete',
+                    ],
+                ],
+            ],
+            [
+                'permission' => 'commerce_management',
+                'module' => [
+                    'orders' => [
+                        'orders.view',
+                        'orders.update',
+                        'orders.delete',
+                    ],
+                    'inventory' => [
+                        'inventory.view',
+                        'inventory.update',
+                    ],
+                ],
+            ],
+            [
+                'permission' => 'network_management',
+                'module' => [
+                    'distributors' => [
+                        'distributors.view',
+                        'distributors.create',
+                        'distributors.update',
+                        'distributors.delete',
+                    ],
+                    'resellers' => [
+                        'resellers.view',
+                        'resellers.create',
+                        'resellers.update',
+                        'resellers.delete',
+                    ],
+                    'commissions' => [
+                        'commissions.view',
+                        'commissions.update',
+                    ],
+                ],
+            ],
+            [
+                'permission' => 'finance_management',
+                'module' => [
+                    'wallets' => [
+                        'wallets.view',
+                        'wallets.update',
+                    ],
+                    'accounting' => [
+                        'accounting.view',
+                        'accounting.update',
+                    ],
+                    'leaderboard' => [
+                        'leaderboard.view',
+                    ],
+                ],
+            ],
+            [
+                'permission' => 'content_management',
+                'module' => [
+                    'training' => [
+                        'training.view',
+                        'training.create',
+                        'training.update',
+                        'training.delete',
+                    ],
+                    'marketing' => [
+                        'marketing.view',
+                        'marketing.create',
+                        'marketing.update',
+                        'marketing.delete',
+                    ],
+                ],
+            ],
+            [
+                'permission' => 'system_management',
+                'module' => [
+                    'settings' => [
+                        'settings.view',
+                        'settings.update',
+                    ],
+                    'audit_logs' => [
+                        'audit_logs.view',
                     ],
                 ],
             ],
