@@ -794,31 +794,86 @@ Always run a full build before commit.
 
 ## FRONTEND STRUCTURE (FIXED)
 
-The directory structure below is fixed. Feature folders must not expand into mini-applications.
+The directory structure below defines the architectural pattern. Feature folders must not expand into mini-applications.
 
 ```text
 frontend/
 +-- src/
-|   +-- api/
-|   |   +-- client.ts
-|   |   +-- endpoints/
-|   |   +-- types/
+|   +-- lib/
+|   |   +-- api/
+|   |   |   +-- client.ts       (Centralized HTTP client)
+|   |   |   +-- types.ts        (Shared API response types)
+|   |   +-- utils.ts            (Shared utility functions)
 |   +-- features/
-|   |   +-- feature-a/
-|   |   |   +-- pages/
-|   |   |   +-- components/
-|   |   |   +-- hooks/
-|   |   |   +-- types.ts
-|   |   +-- feature-b/
-|   |   +-- feature-c/
+|   |   +-- [feature-name]/
+|   |   |   +-- pages/          (REQUIRED - Feature page components)
+|   |   |   +-- api/            (OPTIONAL - Feature API functions)
+|   |   |   |   +-- index.ts
+|   |   |   |   +-- [feature].api.ts
+|   |   |   +-- types/          (REQUIRED - Feature type definitions)
+|   |   |   |   +-- index.ts
+|   |   |   |   +-- [feature].types.ts
+|   |   |   +-- components/     (OPTIONAL - Feature-local components)
+|   |   |   +-- hooks/          (OPTIONAL - Feature-local hooks)
+|   |   |   +-- [feature].routes.ts  (REQUIRED - Route definitions)
 |   +-- components/
-|   +-- hooks/
+|   |   +-- ui/                 (Design system components)
+|   +-- hooks/                  (Shared custom hooks)
 |   +-- routes/
-|   +-- stores/
-|   +-- utils/
-|   +-- styles/
+|   |   +-- index.tsx           (Route assembly)
+|   |   +-- layouts.tsx         (Layout route definitions)
+|   +-- stores/                 (Global state stores)
+|   +-- styles/                 (Global styles)
+|   +-- assets/                 (Static assets)
 +-- public/
 +-- tests/
+```
+
+### Feature Pattern
+
+Each feature follows this structure:
+
+**REQUIRED folders:**
+- `pages/` - All page components
+- `types/` - Type definitions with index.ts
+- `[feature].routes.ts` - Route configuration
+
+**OPTIONAL folders:**
+- `api/` - Feature-specific API functions (uses centralized client)
+- `components/` - Components used only within this feature
+- `hooks/` - Hooks used only within this feature
+
+**Example minimal feature:**
+```text
+features/
++-- dashboard/
+    +-- pages/
+    |   +-- DashboardPage.tsx
+    +-- types/
+    |   +-- index.ts
+    +-- dashboard.routes.ts
+```
+
+**Example full feature:**
+```text
+features/
++-- products/
+    +-- pages/
+    |   +-- ProductsPage.tsx
+    |   +-- ProductDetailPage.tsx
+    |   +-- CreateProductPage.tsx
+    +-- api/
+    |   +-- index.ts
+    |   +-- products.api.ts
+    +-- types/
+    |   +-- index.ts
+    |   +-- products.types.ts
+    +-- components/
+    |   +-- ProductCard.tsx
+    |   +-- ProductForm.tsx
+    +-- hooks/
+    |   +-- use-products.ts
+    +-- products.routes.ts
 ```
 
 This structure is frozen. Feature folders must not become mini-applications.
