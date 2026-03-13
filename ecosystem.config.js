@@ -22,7 +22,7 @@ module.exports = {
       restart_delay: 4000,
     },
     {
-      name: 'rz-auth-queue',
+      name: 'feralde-auth-queue',
       script: 'artisan',
       interpreter: 'php',
       args: 'queue:work --tries=3 --sleep=3',
