@@ -25,9 +25,7 @@ return [
     ),
 
     'allowed_origins_patterns' => [
-        // Allow both HTTP and HTTPS for rz-erp.chysev.cloud (frontend)
         '/^https?:\/\/rz-erp\.chysev\.cloud$/',
-        // Allow rzerp-api.chysev.cloud (backend)
         '/^https?:\/\/rzerp-api\.chysev\.cloud$/',
     ],
 
