@@ -106,11 +106,17 @@ class DatabaseSeeder extends Seeder
                     'orders' => [
                         'orders.view',
                         'orders.update',
+                        'orders.cancel',
                         'orders.delete',
                     ],
                     'inventory' => [
                         'inventory.view',
                         'inventory.update',
+                    ],
+                    'reviews' => [
+                        'reviews.view',
+                        'reviews.update',
+                        'reviews.delete',
                     ],
                 ],
             ],
@@ -249,8 +255,10 @@ class DatabaseSeeder extends Seeder
             DB::table('role_permission')->insert([
                 'role_id'     => $managerRole->id,
                 'permissions' => json_encode([
-                    'users' => ['users.view'],
-                    'roles' => ['roles.view'],
+                    'users'   => ['users.view'],
+                    'roles'   => ['roles.view'],
+                    'orders'  => ['orders.view'],
+                    'reviews' => ['reviews.view'],
                 ]),
                 'created_at'  => now(),
                 'updated_at'  => now(),
