@@ -34,7 +34,7 @@ class SocialAuthController extends Controller
      */
     public function callback(string $provider)
     {
-        $frontendUrl = env('FRONTEND_URL', 'http://localhost:3000');
+        $frontendUrl = config('services.frontend_url');
 
         if (!in_array($provider, self::SUPPORTED)) {
             return redirect($frontendUrl . '?social_error=unsupported');
