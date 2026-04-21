@@ -632,7 +632,7 @@ class User extends Authenticatable
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'account_type' => ['required', 'string', 'in:employee,customer'],
+            'account_type' => ['required', 'string', 'in:employee,customer,distributor'],
             'role_ids' => ['sometimes', 'array'],
             'role_ids.*' => ['exists:roles,id'],
         ]);
@@ -668,7 +668,7 @@ class User extends Authenticatable
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'account_type' => ['sometimes', 'string', 'in:employee,customer'],
+            'account_type' => ['sometimes', 'string', 'in:employee,customer,distributor'],
             'password' => ['sometimes', 'nullable', 'string', 'min:8'],
             'role_ids' => ['sometimes', 'array'],
             'role_ids.*' => ['exists:roles,id'],

@@ -662,4 +662,59 @@ class UserController extends Controller
         
         return $response;
     }
+
+    /**
+     * Internal service-to-service user creation
+     */
+    public function internalStore(Request $request): JsonResponse
+    {
+        $secret = config('services.internal.secret', env('AUTH_SERVICE_SECRET', ''));
+        
+        if (!empty($secret) && $request->header('X-Service-Secret') !== $secret) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized service request'], 401);
+        }
+
+        $validated = User::validateStore($request->all());
+        $result = User::createUser($validated);
+
+        if (!$result['success']) {
+            return response()->json([
+                'success' => false,
+                'message' => $result['message'],
+                'errors' => $result['errors'] ?? [],
+            ], 422);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User created successfully',
+            'data' => $result['user'],
+        ], 201);
+    }
+
+    /**
+     * Internal service-to-service user deletion (for rollback)
+     */
+    public function internalDestroy(Request $request, int $id): JsonResponse
+    {
+        $secret = config('services.internal.secret', env('AUTH_SERVICE_SECRET', ''));
+        
+        if (!empty($secret) && $request->header('X-Service-Secret') !== $secret) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized service request'], 401);
+        }
+
+        $result = User::deleteUserById($id);
+
+        if (!$result['success']) {
+            return response()->json([
+                'success' => false,
+                'message' => $result['message'],
+            ], $result['status'] ?? 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User deleted successfully',
+        ]);
+    }
 }
