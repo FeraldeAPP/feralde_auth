@@ -40,6 +40,15 @@ Route::prefix('auth')->middleware('web')->group(function () {
     Route::get('/social/{provider}/callback',  [SocialAuthController::class, 'callback']);
 });
 
+// -------------------------------------------------------------------------
+// Internal service-to-service routes (no session/auth required, protected
+// by a shared secret validated in the middleware/controller)
+// -------------------------------------------------------------------------
+Route::prefix('internal')->middleware(['force.json', 'throttle:60,1'])->group(function () {
+    Route::post('/users',       [UserController::class, 'internalStore']);
+    Route::delete('/users/{id}', [UserController::class, 'internalDestroy']);
+});
+
 // Protected routes (require authentication and session middleware for cookie-based auth)
 Route::middleware(['web', 'force.json', 'auth:sanctum'])->group(function () {
     // Current authenticated user
